@@ -11,7 +11,7 @@ package Magicians;
  * @author Patberg
  */
 public class BookingList {
-    private BookingListEntry[] bookingList = new BookingListEntry[10];
+    private BookingListEntry[] bookingList = new BookingListEntry[20];
     
     public void addBooking(BookingListEntry b)
     {
@@ -21,5 +21,10 @@ public class BookingList {
                 bookingList[x]=b;
                 x=bookingList.length;
             }
+    }
+    
+    public BookingListEntry[] getBookingList()
+    {
+        return bookingList;
     }
 }

@@ -65,18 +65,18 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="HolidayLabel1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="HolidayLabelBooking" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="HolidayComboBox1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="HolidayComboBoxBooking" min="-2" max="-2" attributes="0"/>
                                   <Component id="NameBox" min="-2" pref="86" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextField2" min="-2" pref="233" max="-2" attributes="0"/>
+                              <Component id="BookingTextField" min="-2" pref="233" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -97,13 +97,13 @@
                       </Group>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="HolidayLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="HolidayComboBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="HolidayLabelBooking" min="-2" max="-2" attributes="0"/>
+                          <Component id="HolidayComboBoxBooking" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="BookingButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField2" min="-2" pref="174" max="-2" attributes="0"/>
+                      <Component id="BookingTextField" min="-2" pref="174" max="-2" attributes="0"/>
                       <EmptySpace pref="35" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -125,17 +125,17 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BookingButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="BookingTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BookingTextFieldActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="HolidayLabel1">
+            <Component class="javax.swing.JLabel" name="HolidayLabelBooking">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Holiday: "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="HolidayComboBox1">
+            <Component class="javax.swing.JComboBox" name="HolidayComboBoxBooking">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -166,17 +166,17 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="MagiciansLabel" min="-2" max="-2" attributes="0"/>
-                                  <Component id="HolidayLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="HolidayLabelStatus" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="HolidayComboBox" min="-2" max="-2" attributes="0"/>
+                                  <Component id="HolidayComboBoxStatus" min="-2" max="-2" attributes="0"/>
                                   <Component id="MagiciansComboBox" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextField3" min="-2" pref="232" max="-2" attributes="0"/>
+                              <Component id="StatusTextField" min="-2" pref="232" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -192,8 +192,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="HolidayComboBox" min="-2" max="-2" attributes="0"/>
-                          <Component id="HolidayLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="HolidayComboBoxStatus" min="-2" max="-2" attributes="0"/>
+                          <Component id="HolidayLabelStatus" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -203,7 +203,7 @@
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Component id="StatusButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Component id="jTextField3" min="-2" pref="179" max="-2" attributes="0"/>
+                      <Component id="StatusTextField" min="-2" pref="179" max="-2" attributes="0"/>
                       <EmptySpace pref="25" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -215,12 +215,12 @@
                 <Property name="text" type="java.lang.String" value="Status"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="HolidayLabel">
+            <Component class="javax.swing.JLabel" name="HolidayLabelStatus">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Holiday: "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="HolidayComboBox">
+            <Component class="javax.swing.JComboBox" name="HolidayComboBoxStatus">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -247,9 +247,9 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField3">
+            <Component class="javax.swing.JTextField" name="StatusTextField">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StatusTextFieldActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

@@ -34,16 +34,16 @@ public class GUI extends javax.swing.JFrame {
         NameLabel = new javax.swing.JLabel();
         NameBox = new javax.swing.JTextField();
         BookingButton = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        HolidayLabel1 = new javax.swing.JLabel();
-        HolidayComboBox1 = new javax.swing.JComboBox();
+        BookingTextField = new javax.swing.JTextField();
+        HolidayLabelBooking = new javax.swing.JLabel();
+        HolidayComboBoxBooking = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         StatusButton = new javax.swing.JButton();
-        HolidayLabel = new javax.swing.JLabel();
-        HolidayComboBox = new javax.swing.JComboBox();
+        HolidayLabelStatus = new javax.swing.JLabel();
+        HolidayComboBoxStatus = new javax.swing.JComboBox();
         MagiciansLabel = new javax.swing.JLabel();
         MagiciansComboBox = new javax.swing.JComboBox();
-        jTextField3 = new javax.swing.JTextField();
+        StatusTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,15 +56,15 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        BookingTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                BookingTextFieldActionPerformed(evt);
             }
         });
 
-        HolidayLabel1.setText("Holiday: ");
+        HolidayLabelBooking.setText("Holiday: ");
 
-        HolidayComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
+        HolidayComboBoxBooking.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -79,14 +79,14 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(NameLabel))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(HolidayLabel1)))
+                                .addComponent(HolidayLabelBooking)))
                         .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(HolidayComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HolidayComboBoxBooking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(NameBox, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BookingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(BookingButton)))
@@ -101,12 +101,12 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(NameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(HolidayLabel1)
-                    .addComponent(HolidayComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(HolidayLabelBooking)
+                    .addComponent(HolidayComboBoxBooking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BookingButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BookingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -114,17 +114,17 @@ public class GUI extends javax.swing.JFrame {
 
         StatusButton.setText("Status");
 
-        HolidayLabel.setText("Holiday: ");
+        HolidayLabelStatus.setText("Holiday: ");
 
-        HolidayComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
+        HolidayComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
 
         MagiciansLabel.setText("Magicians:");
 
         MagiciansComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Houdini", "David Blane", "Chris Angel" }));
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        StatusTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                StatusTextFieldActionPerformed(evt);
             }
         });
 
@@ -138,14 +138,14 @@ public class GUI extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(MagiciansLabel)
-                            .addComponent(HolidayLabel))
+                            .addComponent(HolidayLabelStatus))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(HolidayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(HolidayComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MagiciansComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(StatusButton)))
@@ -156,8 +156,8 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(HolidayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HolidayLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(HolidayComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(HolidayLabelStatus, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MagiciansLabel)
@@ -165,7 +165,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(StatusButton)
                 .addGap(11, 11, 11)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(StatusTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -189,13 +189,13 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BookingButtonActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void BookingTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_BookingTextFieldActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void StatusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_StatusTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,20 +234,20 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BookingButton;
-    private javax.swing.JComboBox HolidayComboBox;
-    private javax.swing.JComboBox HolidayComboBox1;
-    private javax.swing.JLabel HolidayLabel;
-    private javax.swing.JLabel HolidayLabel1;
+    private javax.swing.JTextField BookingTextField;
+    private javax.swing.JComboBox HolidayComboBoxBooking;
+    private javax.swing.JComboBox HolidayComboBoxStatus;
+    private javax.swing.JLabel HolidayLabelBooking;
+    private javax.swing.JLabel HolidayLabelStatus;
     private javax.swing.JComboBox MagiciansComboBox;
     private javax.swing.JLabel MagiciansLabel;
     private javax.swing.JTextField NameBox;
     private javax.swing.JLabel NameLabel;
     private javax.swing.JButton StatusButton;
+    private javax.swing.JTextField StatusTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

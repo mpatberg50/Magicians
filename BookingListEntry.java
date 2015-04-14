@@ -10,15 +10,44 @@ package Magicians;
  *
  * @author Patberg
  */
+import java.sql.*;
+
+
 public class BookingListEntry {
     private Customer cust;
     private Holiday hol;
     private Magician mag;
+    private String name;
+    
+    private static String dbURL = "jdbc:derby://localhost:1527/MagicianData;create=true;user=me;password=mine";
+    final private String username = "mrp5379", password = "famfa50";
+    private Connection connection;
+    private PreparedStatement newBookingEntry;
+    
     
     BookingListEntry(Customer c, Holiday h)
     {
         cust=c;
         hol=h;
+        final String query = "INSERT INTO BOOKING"+
+                                "(CUSTOMERID,HOLIDAYID,MAGICIANID,TIMEOFBOOKING)"+
+                                 "VALUES(?,?,?,?)";        
+        try
+        {
+            connection = DriverManager.getConnection(dbURL,username,password);
+            newBookingEntry = connection.prepareStatement(query);
+            
+            newBookingEntry.setInt(1, c.getID(query));
+            
+            
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        
+        
     }
     
     public Customer getCustomer()
