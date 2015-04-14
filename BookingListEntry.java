@@ -13,6 +13,7 @@ package Magicians;
 public class BookingListEntry {
     private Customer cust;
     private Holiday hol;
+    private Magician mag;
     
     BookingListEntry(Customer c, Holiday h)
     {
@@ -35,5 +36,13 @@ public class BookingListEntry {
     public void setHoliday(Holiday h)
     {
         hol=h;
+    }
+    public void setMagician(Magician m)
+    {
+        mag=m;
+    }
+    public Magician getMagician()
+    {
+        return mag;
     }
 }
