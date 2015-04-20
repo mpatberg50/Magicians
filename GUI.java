@@ -1,15 +1,8 @@
 package Magicians;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author Patberg
- */
+//This is the GUI created from the Nimbus generator in Netbeans
+
 public class GUI extends javax.swing.JFrame {
 
     private BookingList bookingList = new BookingList();

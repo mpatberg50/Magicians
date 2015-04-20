@@ -7,17 +7,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.ArrayList;
 
-/**
- *
- * @author Patberg
- */
-
+//This class contains the list of magician names along with accesors to the magician table
 
 public class MagicianList {
     private static String dbURL = "jdbc:derby://localhost:1527/MagicianData";
@@ -25,16 +17,26 @@ public class MagicianList {
     // jdbc Connection
     private static Connection connection = null;
     private static PreparedStatement addMagician = null;
-    private String[] magicians = new String[10];
+    private ArrayList<String> magicians = new ArrayList<String>();
     
     MagicianList()
     {
-        for(int x=0; x<magicians.length;x++)
-            magicians[x]="";
-    }
-    MagicianList(String[] m)
-    {
-        magicians=m;
+        final String query = "SELECT * From APP.MAGICIANS";
+        try(Connection conn = DriverManager.getConnection(dbURL,username,password);
+                Statement stat = conn.createStatement();
+                ResultSet resultSet = stat.executeQuery(query);
+                )
+        {
+            while(resultSet.next())
+            {
+                magicians.add(resultSet.getString("NAME"));
+            }
+            
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
     }
     
     

@@ -5,22 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author Patberg
- */
+//This class will contain all of the commands for interacting with the database
+//It will add each booking entry along with getting statuses of the waitlist,magicians, and holidays
+
 public class BookingList {
-    private final BookingListEntry[] bookingList = new BookingListEntry[20];
- 
-    
     private final static String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     private final String username = "mrp5379", password = "famfa50";
     private Connection connection = null;
@@ -36,20 +26,10 @@ public class BookingList {
         holidayList = new HolidayList();
     }
     
-    
     public void addBooking(String customer, String holiday)
     {
-        for(int x =0; x<bookingList.length;x++)
-            if(bookingList[x]==null)
-            {
-                customerList.add(customer);
-                bookingList[x]= new BookingListEntry(customerList.getID(customer),holidayList.getHolidayID(holiday));
-                x=bookingList.length;
-            }
-    }
-    public BookingListEntry[] getBookingList()
-    {
-        return bookingList;
+            customerList.add(customer);
+            new BookingListEntry(customerList.getID(customer),holidayList.getHolidayID(holiday));
     }
     public String getHolidayBookingList (String hol)
     {

@@ -7,25 +7,18 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.*;
+import java.util.ArrayList;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author Patberg
- */
+//This is a list of all holidays and accessors to the holidays table
+
 public class HolidayList {
     private final String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     final private String username = "mrp5379", password = "famfa50";
     private  Connection connection;
     private PreparedStatement insertCustomer, printEntries;
     
-    private String[] holidays = new String[10];
+    private final ArrayList<String> holidays = new ArrayList<String>();
 
     HolidayList()
     {
@@ -39,11 +32,9 @@ public class HolidayList {
                 ResultSet resultSet = statement.executeQuery(query);
             ResultSetMetaData metaData = resultSet.getMetaData();
             
-            int count =0;
             while(resultSet.next())
             {
-                holidays[count]= (String)resultSet.getObject("NAME");
-                count++;
+                holidays.add((String)resultSet.getObject("NAME"));
             }
         }
         catch(SQLException exception)
@@ -51,10 +42,6 @@ public class HolidayList {
             exception.printStackTrace();
         }
         
-    }
-    HolidayList(String[] h)
-    {
-        holidays=h;
     }
     public int getHolidayID (String name)
      {
@@ -82,14 +69,7 @@ public class HolidayList {
     }
     public void add(String h)
     {
-        for(int x=0; x<holidays.length;x++)
-        {
-            if(holidays[x]==null)
-            {
-                holidays[x]=h;
-                x=holidays.length;
-            }
-        }
+        holidays.add(h);
     }
     public String getHolidayName(int id)
     {
