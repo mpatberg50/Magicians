@@ -11,25 +11,26 @@ package Magicians;
  * @author Patberg
  */
 import java.sql.*;
-
+import java.util.Calendar;
 
 public class BookingListEntry {
-    private Customer cust;
-    private Holiday hol;
-    private Magician mag;
+    private String customer;
+    private String holiday;
+    private String magician;
     private String name;
     
-    private static String dbURL = "jdbc:derby://localhost:1527/MagicianData;create=true;user=me;password=mine";
+    private static String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     final private String username = "mrp5379", password = "famfa50";
     private Connection connection;
-    private PreparedStatement newBookingEntry;
+    private PreparedStatement newBookingEntry, addMagician;
+    private DatabaseAccessors accessors = new DatabaseAccessors();
     
     
-    BookingListEntry(Customer c, Holiday h)
+    BookingListEntry(String c, String h)
     {
-        cust=c;
-        hol=h;
-        final String query = "INSERT INTO BOOKING"+
+        customer=c;
+        holiday=h;
+        final String query = "INSERT INTO APP.BOOKING"+
                                 "(CUSTOMERID,HOLIDAYID,MAGICIANID,TIMEOFBOOKING)"+
                                  "VALUES(?,?,?,?)";        
         try
@@ -37,41 +38,64 @@ public class BookingListEntry {
             connection = DriverManager.getConnection(dbURL,username,password);
             newBookingEntry = connection.prepareStatement(query);
             
-            newBookingEntry.setInt(1, c.getID(query));
+            newBookingEntry.setInt(1, accessors.getCustomerID(c));
+            newBookingEntry.setInt(2, accessors.getHolidayID(h));
             
             
+
+            int magicianNumber = -1;
+            final String query2 = "SELECT  APP.MAGICIANS.MAGICIANID, APP.BOOKING.CUSTOMERID"+
+                                    " FROM APP.MAGICIANS "+
+                                    " LEFT OUTER JOIN APP.BOOKING "+
+                                    " ON APP.MAGICIANS.MAGICIANID=APP.BOOKING.MAGICIANID AND APP.BOOKING.HOLIDAYID=?";        
+            try
+            {
+                  addMagician = connection.prepareStatement(query2);
+                  addMagician.setInt(1, accessors.getHolidayID(holiday));
+                  ResultSet resultSet = addMagician.executeQuery();
+
+                  while(resultSet.next())
+                  {
+                      if(resultSet.getObject("CUSTOMERID")==null)
+                      {
+                          magicianNumber =  resultSet.getInt("CUSTOMERID");
+                      }
+                  }
+            }
+            catch(SQLException exception)
+            {
+                exception.printStackTrace();
+            }
+            newBookingEntry.setInt(3, magicianNumber);
+
+            java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+            newBookingEntry.setTimestamp(4, currentTimestamp);
+
+            }
+            catch(SQLException exception)
+            {
+                exception.printStackTrace();
+            }
         }
-        catch(SQLException exception)
-        {
-            exception.printStackTrace();
-        }
-        
-        
-        
-    }
-    
-    public Customer getCustomer()
+
+    public String getCustomer()
     {
-        return cust;
+        return customer;
     }
-    public Holiday getHoliday()
+    public String getHoliday()
     {
-        return hol;
+        return holiday;
     }
-    public void setCustomer(Customer c)
+    public void setCustomer(String c)
     {
-        cust= c;
+        customer= c;
     }
-    public void setHoliday(Holiday h)
+    public void setHoliday(String h)
     {
-        hol=h;
+        holiday=h;
     }
-    public void setMagician(Magician m)
+    public String getMagician()
     {
-        mag=m;
-    }
-    public Magician getMagician()
-    {
-        return mag;
+        return magician;
     }
 }
