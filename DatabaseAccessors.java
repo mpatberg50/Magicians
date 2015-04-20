@@ -36,8 +36,8 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject(1).equals(name))
-                    ID =(Integer) resultSet.getObject(2);
+                if(resultSet.getString("NAME").equals(name))
+                    ID = resultSet.getInt("ID");
             }
         }
         catch(SQLException exception)
@@ -60,8 +60,8 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject(1).equals(name))
-                    ID =(Integer) resultSet.getObject(2);
+                if(resultSet.getString("NAME").equals(name))
+                    ID = resultSet.getInt("MAGICIANID");
             }
         }
         catch(SQLException exception)
@@ -84,7 +84,7 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject("NAME").equals(name))
+                if(resultSet.getString("NAME").equals(name))
                     ID =resultSet.getInt("HOLIDAYID");
             }
         }
@@ -109,8 +109,8 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject(1).equals(name))
-                    name =(String) resultSet.getObject(2);
+                if(resultSet.getInt("ID")==id)
+                    name = resultSet.getString("NAME");
             }
         }
         catch(SQLException exception)
@@ -133,8 +133,8 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject(1).equals(name))
-                    name =(String) resultSet.getObject(2);
+                if(resultSet.getInt("MAGICIANID")==id)
+                    name = resultSet.getString("NAME");
             }
         }
         catch(SQLException exception)
@@ -157,8 +157,8 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject(1).equals(name))
-                    name =(String) resultSet.getObject(2);
+                if(resultSet.getInt("HOLIDAYID")==id)
+                    name = resultSet.getString("NAME");
             }
         }
         catch(SQLException exception)

@@ -58,7 +58,7 @@ public class BookingListEntry {
                   {
                       if(resultSet.getObject("CUSTOMERID")==null)
                       {
-                          magicianNumber =  resultSet.getInt("CUSTOMERID");
+                          magicianNumber =  resultSet.getInt("MAGICIANID");
                       }
                   }
             }

@@ -42,6 +42,7 @@ public class BookingList {
             {
                 customerList.add(customer);
                 bookingList[x]= new BookingListEntry(customer,holiday);
+                x=bookingList.length;
             }
     }
     public BookingListEntry[] getBookingList()
@@ -63,9 +64,7 @@ public class BookingList {
             ResultSet resultSet = printEntries.executeQuery();
             
             list+="Customer\t  Holiday\t  Magician\n";
-            for(int x=0; x<100;x++)
-                list+="_";
-            list+="\n";
+
             
             while(resultSet.next())
             {
