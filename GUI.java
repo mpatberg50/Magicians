@@ -12,8 +12,6 @@ package Magicians;
  */
 public class GUI extends javax.swing.JFrame {
 
-    private Holiday hol = new Holiday();
-    private CustomerList cust = new CustomerList();
     private BookingList bookingList = new BookingList();
     /**
      * Creates new form GUI
@@ -133,7 +131,7 @@ public class GUI extends javax.swing.JFrame {
 
         MagiciansLabel.setText("Magicians:");
 
-        MagiciansComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Houdini", "David Blane", "Chris Angel" }));
+        MagiciansComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Houdini", "Gandalf", "Merlin" }));
 
         StatusMagicians.setText("Status");
         StatusMagicians.addActionListener(new java.awt.event.ActionListener() {
@@ -236,23 +234,30 @@ public class GUI extends javax.swing.JFrame {
     private void BookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingButtonActionPerformed
         String customerName = NameBox.getText();
         String holidayName = (String)HolidayComboBoxBooking.getSelectedItem();
-        bookingList.addBooking(customerName, holidayName);
         
-        BookingTextArea.setText(bookingList.getHolidayBookingList(holidayName));
+        
+        if(NameBox.getText().length()>=1);
+        {
+            bookingList.addBooking(customerName, holidayName);
+            BookingTextArea.setText(bookingList.getHolidayBookingList(holidayName) + "\n\n" + bookingList.getWaitlist(holidayName));
+        }
+        
+        
     }//GEN-LAST:event_BookingButtonActionPerformed
 
     private void PressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressButton
-        String holidayList="";
-        holidayList = hol.printStatus(HolidayComboBoxStatus.getName());
-        StatusTextArea.setText(holidayList);
+        String holidayName = (String)HolidayComboBoxStatus.getSelectedItem();
+        StatusTextArea.setText(bookingList.getHolidayStatus(holidayName));
     }//GEN-LAST:event_PressButton
 
     private void StatusMagiciansPressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusMagiciansPressButton
-        // TODO add your handling code here:
+        String magicianName = (String)MagiciansComboBox.getSelectedItem();
+        StatusTextArea.setText(bookingList.getMagicianStatus(magicianName));
     }//GEN-LAST:event_StatusMagiciansPressButton
 
     private void WaitListStatusPressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WaitListStatusPressButton
-        // TODO add your handling code here:
+        String holidayName = (String)WaitlistComboBox.getSelectedItem();
+        StatusTextArea.setText(bookingList.getWaitlist(holidayName));
     }//GEN-LAST:event_WaitListStatusPressButton
 
     /**

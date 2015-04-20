@@ -52,7 +52,7 @@ public class CustomerList {
                 "INSERT INTO APP.CUSTOMER"+
                 "(Name,ID)"+
                 "VALUES(?,?)";
-        for(int x=0; x<customers.length && customers[x]!=cust;x++)
+        for(int x=0; x<customers.length ;x++)
         {
             if(customers[x]==null)
             {
@@ -74,6 +74,8 @@ public class CustomerList {
                     sqlException.printStackTrace();
                 }
             }
+            else if (customers[x].equals(cust))
+                x=customers.length;
         }
     }
     

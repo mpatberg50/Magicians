@@ -51,7 +51,7 @@ public class DatabaseAccessors {
     {
            int ID=0;
         final String query = 
-            "SELECT *FROM APP.MAGICIAN";
+            "SELECT *FROM APP.MAGICIANS";
         try(Connection connection = DriverManager.getConnection(dbURL,username,password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query))

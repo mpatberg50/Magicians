@@ -53,7 +53,7 @@ public class BookingList {
     {
         String list = "";
         final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
-                + "FROM   APP.BOOKING   WHERE   HOLIDAYID = ?";
+                + "FROM   APP.BOOKING   WHERE   HOLIDAYID = ? AND MAGICIANID <> -1";
         
         try
         {
@@ -68,8 +68,7 @@ public class BookingList {
             
             while(resultSet.next())
             {
-                System.out.println(resultSet.getInt("CUSTOMERID")+ " " + resultSet.getInt("HOLIDAYID")+ " "+ resultSet.getInt("MAGICIANID"));
-                list+= accessors.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\t| " + accessors.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t| "+ accessors.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
+                list+= accessors.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\t " + accessors.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ accessors.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
             }
         }
         catch(SQLException exception)
@@ -79,4 +78,102 @@ public class BookingList {
         
         return list;
     }
+    public String getMagicianStatus(String m)
+    {
+        String list = m + "\n\n";
+        final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
+                + "FROM   APP.BOOKING   WHERE   MAGICIANID = ?";
+        
+        
+        try
+        {
+            connection = DriverManager.getConnection(dbURL,username,password);
+            printEntries = connection.prepareStatement(query);
+            printEntries.setInt(1, accessors.getMagicianID(m));
+            ResultSet resultSet = printEntries.executeQuery();
+            
+            list+="Holiday\t  Customer\n";
+
+            
+            while(resultSet.next())
+            {
+                list+=  accessors.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ accessors.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\n";
+            }          
+            
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        
+        return list;
+    }
+    public String getHolidayStatus(String h)
+    {
+        String list = h + "\n\n";
+        final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
+                + "FROM   APP.BOOKING   WHERE   HOLIDAYID = ?";
+        
+        
+        try
+        {
+            connection = DriverManager.getConnection(dbURL,username,password);
+            printEntries = connection.prepareStatement(query);
+            printEntries.setInt(1, accessors.getHolidayID(h));
+            ResultSet resultSet = printEntries.executeQuery();
+            
+            list+="Customer\tMagician\n\n";
+
+            
+            while(resultSet.next())
+            {
+                list+=  accessors.getCustomerName(resultSet.getInt("CUSTOMERID"))+ "\t"+ accessors.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
+            }          
+            
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        
+        return list;
+    }
+    
+    public String getWaitlist(String h)
+    {
+        
+        String list = "Waitlist for " + h + " \n\n";
+        final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID,TIMEOFBOOKING "
+                + "FROM APP.BOOKING WHERE HOLIDAYID = ? AND MAGICIANID=-1 "
+                + "ORDER BY TIMEOFBOOKING ASC";
+        
+        
+        try
+        {
+            connection = DriverManager.getConnection(dbURL,username,password);
+            printEntries = connection.prepareStatement(query);
+            printEntries.setInt(1, accessors.getHolidayID(h));
+            ResultSet resultSet = printEntries.executeQuery();
+            
+            
+            int x =1;
+            
+            while(resultSet.next())
+            {
+                list+=  x+ ". " + accessors.getCustomerName(resultSet.getInt("CUSTOMERID"))+"\n";
+                x++;
+            }          
+            
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        
+        return list;
+    }
+    
 }
