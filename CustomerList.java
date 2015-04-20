@@ -83,7 +83,7 @@ public int getID(String cust)
     {
         int ID=0;
         final String query = 
-            "SELECT *FROM CUSTOMERS";
+            "SELECT *FROM APP.CUSTOMER";
         try(Connection connection = DriverManager.getConnection(dbURL,username,password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query))
@@ -111,6 +111,35 @@ public int getID(String cust)
                 return true;
         return false;
     }
+    
+    
+    
+        public String getCustomerName(int id)
+    {
+        String name="";
+        final String query = 
+            "SELECT *FROM APP.CUSTOMER";
+        try(Connection connection = DriverManager.getConnection(dbURL,username,password);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query))
+        {
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            
+            while(resultSet.next())
+            {
+                if(resultSet.getInt("ID")==id)
+                    name = resultSet.getString("NAME");
+            }
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        return name;
+    }
 }
+
+
 
 

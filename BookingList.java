@@ -24,14 +24,16 @@ public class BookingList {
     private final static String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     private final String username = "mrp5379", password = "famfa50";
     private Connection connection = null;
-    private PreparedStatement printEntries = null;   
-    private final DatabaseAccessors accessors;
+    private PreparedStatement printEntries = null;  
     private final CustomerList customerList;
+    private final MagicianList magicianList;
+    private final HolidayList holidayList;
     
     public BookingList()
     {
-        accessors = new DatabaseAccessors();
         customerList = new CustomerList();
+        magicianList = new MagicianList();
+        holidayList = new HolidayList();
     }
     
     
@@ -41,7 +43,7 @@ public class BookingList {
             if(bookingList[x]==null)
             {
                 customerList.add(customer);
-                bookingList[x]= new BookingListEntry(customer,holiday);
+                bookingList[x]= new BookingListEntry(customerList.getID(customer),holidayList.getHolidayID(holiday));
                 x=bookingList.length;
             }
     }
@@ -59,7 +61,7 @@ public class BookingList {
         {
             connection = DriverManager.getConnection(dbURL,username,password);
             printEntries = connection.prepareStatement(query);
-            printEntries.setInt(1, accessors.getHolidayID(hol));
+            printEntries.setInt(1, holidayList.getHolidayID(hol));
             
             ResultSet resultSet = printEntries.executeQuery();
             
@@ -68,7 +70,7 @@ public class BookingList {
             
             while(resultSet.next())
             {
-                list+= accessors.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\t " + accessors.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ accessors.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
+                list+= customerList.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\t " + holidayList.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ magicianList.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
             }
         }
         catch(SQLException exception)
@@ -89,7 +91,7 @@ public class BookingList {
         {
             connection = DriverManager.getConnection(dbURL,username,password);
             printEntries = connection.prepareStatement(query);
-            printEntries.setInt(1, accessors.getMagicianID(m));
+            printEntries.setInt(1, magicianList.getMagicianID(m));
             ResultSet resultSet = printEntries.executeQuery();
             
             list+="Holiday\t  Customer\n";
@@ -97,7 +99,7 @@ public class BookingList {
             
             while(resultSet.next())
             {
-                list+=  accessors.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ accessors.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\n";
+                list+=  holidayList.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ customerList.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\n";
             }          
             
         }
@@ -120,7 +122,7 @@ public class BookingList {
         {
             connection = DriverManager.getConnection(dbURL,username,password);
             printEntries = connection.prepareStatement(query);
-            printEntries.setInt(1, accessors.getHolidayID(h));
+            printEntries.setInt(1, holidayList.getHolidayID(h));
             ResultSet resultSet = printEntries.executeQuery();
             
             list+="Customer\tMagician\n\n";
@@ -128,7 +130,8 @@ public class BookingList {
             
             while(resultSet.next())
             {
-                list+=  accessors.getCustomerName(resultSet.getInt("CUSTOMERID"))+ "\t"+ accessors.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
+                list+=  customerList.getCustomerName(resultSet.getInt("CUSTOMERID"))+ "\t"+ magicianList.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
+                
             }          
             
         }
@@ -154,7 +157,7 @@ public class BookingList {
         {
             connection = DriverManager.getConnection(dbURL,username,password);
             printEntries = connection.prepareStatement(query);
-            printEntries.setInt(1, accessors.getHolidayID(h));
+            printEntries.setInt(1, holidayList.getHolidayID(h));
             ResultSet resultSet = printEntries.executeQuery();
             
             
@@ -162,7 +165,7 @@ public class BookingList {
             
             while(resultSet.next())
             {
-                list+=  x+ ". " + accessors.getCustomerName(resultSet.getInt("CUSTOMERID"))+"\n";
+                list+=  x+ ". " + customerList.getCustomerName(resultSet.getInt("CUSTOMERID"))+"\n";
                 x++;
             }          
             

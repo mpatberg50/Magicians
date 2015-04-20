@@ -14,22 +14,20 @@ import java.sql.*;
 import java.util.Calendar;
 
 public class BookingListEntry {
-    private String customer;
-    private String holiday;
-    private String magician;
-    private String name;
+    private int customerID;
+    private int holidayID;
+    private int magicianID;
     
     private static String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     final private String username = "mrp5379", password = "famfa50";
     private Connection connection;
     private PreparedStatement newBookingEntry, addMagician;
-    private DatabaseAccessors accessors = new DatabaseAccessors();
     
     
-    BookingListEntry(String c, String h)
+    BookingListEntry(int cusID, int holID)
     {
-        customer=c;
-        holiday=h;
+        customerID=cusID;
+        holidayID=holID;
         final String query = "INSERT INTO APP.BOOKING"+
                                 "(CUSTOMERID,HOLIDAYID,MAGICIANID,TIMEOFBOOKING)"+
                                  "VALUES(?,?,?,?)";        
@@ -38,8 +36,8 @@ public class BookingListEntry {
             connection = DriverManager.getConnection(dbURL,username,password);
             newBookingEntry = connection.prepareStatement(query);
             
-            newBookingEntry.setInt(1, accessors.getCustomerID(c));
-            newBookingEntry.setInt(2, accessors.getHolidayID(h));
+            newBookingEntry.setInt(1, customerID);
+            newBookingEntry.setInt(2, holidayID);
             
             
 
@@ -51,7 +49,7 @@ public class BookingListEntry {
             try
             {
                   addMagician = connection.prepareStatement(query2);
-                  addMagician.setInt(1, accessors.getHolidayID(holiday));
+                  addMagician.setInt(1, holidayID);
                   ResultSet resultSet = addMagician.executeQuery();
 
                   while(resultSet.next())
@@ -80,24 +78,28 @@ public class BookingListEntry {
             }
         }
 
-    public String getCustomer()
+    public int getCustomer()
     {
-        return customer;
+        return customerID;
     }
-    public String getHoliday()
+    public int getHoliday()
     {
-        return holiday;
+        return holidayID;
     }
-    public void setCustomer(String c)
+    public int getMagician()
     {
-        customer= c;
+        return magicianID;
+    }   
+    public void setCustomer(int c)
+    {
+        customerID= c;
     }
-    public void setHoliday(String h)
+    public void setHoliday(int h)
     {
-        holiday=h;
+        holidayID=h;
     }
-    public String getMagician()
+    public void setMagician(int m)
     {
-        return magician;
+        magicianID=m;
     }
 }
