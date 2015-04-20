@@ -66,10 +66,12 @@ public class BookingListEntry {
             {
                 exception.printStackTrace();
             }
+            
+            
             newBookingEntry.setInt(3, magicianNumber);
-
             java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
             newBookingEntry.setTimestamp(4, currentTimestamp);
+            newBookingEntry.executeUpdate();
 
             }
             catch(SQLException exception)

@@ -69,6 +69,7 @@ public class GUI extends javax.swing.JFrame {
 
         HolidayComboBoxBooking.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
 
+        BookingTextArea.setEditable(false);
         BookingTextArea.setColumns(20);
         BookingTextArea.setRows(5);
         jScrollPane2.setViewportView(BookingTextArea);
@@ -152,6 +153,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        StatusTextArea.setEditable(false);
         StatusTextArea.setColumns(20);
         StatusTextArea.setRows(5);
         jScrollPane1.setViewportView(StatusTextArea);
@@ -231,6 +233,8 @@ public class GUI extends javax.swing.JFrame {
         String customerName = NameBox.getText();
         String holidayName = (String)HolidayComboBoxBooking.getSelectedItem();
         bookingList.addBooking(customerName, holidayName);
+        
+        BookingTextArea.setText(bookingList.getHolidayBookingList(holidayName));
     }//GEN-LAST:event_BookingButtonActionPerformed
 
     private void PressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressButton

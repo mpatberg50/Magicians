@@ -19,7 +19,7 @@ import java.sql.Statement;
  */
 public class CustomerList {
 
-    private String[] customers = new String[10];
+    private String[] customers = new String[20];
     private final String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     final private String username = "mrp5379", password = "famfa50";
     private Connection connection;
@@ -27,41 +27,51 @@ public class CustomerList {
     
     CustomerList()
     {
-        for(int x=0; x<customers.length;x++)
+        final String query = "SELECT * FROM APP.CUSTOMER";
+        try
         {
-            customers[x]=null;
+            int counter = 0;
+            connection = DriverManager.getConnection(dbURL,username,password);
+            insertCustomer = connection.prepareStatement(query);
+            ResultSet resultSet = insertCustomer.executeQuery();
+            while(resultSet.next())
+            {
+                customers[counter] = resultSet.getString("NAME");
+                counter++;
+            }
         }
-    }
-    CustomerList(String[] h)
-    {
-        customers=h;
+        catch (SQLException exception)
+        {
+            exception.printStackTrace();
+        }
     }
     
     public void add(String cust)
     {
         final String query = 
-                "INSERT INTO CUSTOMERS"+
-                "(Name,CustomerID)"+
+                "INSERT INTO APP.CUSTOMER"+
+                "(Name,ID)"+
                 "VALUES(?,?)";
-        for(int x=0; x<customers.length;x++)
+        for(int x=0; x<customers.length && customers[x]!=cust;x++)
         {
             if(customers[x]==null)
             {
                 customers[x]=cust;
-                x=customers.length;
                 
+
                 try
                 {
                     connection = DriverManager.getConnection(dbURL,username,password);
                     insertCustomer = connection.prepareStatement(query);
                     insertCustomer.setString(1, cust);
                     insertCustomer.setInt(2, x);
-                    insertCustomer.executeQuery();
+                    x=customers.length;
+                    insertCustomer.executeUpdate();
+                    
                 }
                 catch (SQLException sqlException)
                 {
                     sqlException.printStackTrace();
-                    System.exit(1);
                 }
             }
         }

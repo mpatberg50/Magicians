@@ -73,7 +73,7 @@ public class DatabaseAccessors {
     }
     public int getHolidayID (String name)
      {
-           int ID=0;
+        int ID=0;
         final String query = 
             "SELECT *FROM APP.HOLIDAYS";
         try(Connection connection = DriverManager.getConnection(dbURL,username,password);
@@ -84,8 +84,8 @@ public class DatabaseAccessors {
             
             while(resultSet.next())
             {
-                if(resultSet.getObject(1).equals(name))
-                    ID =(Integer) resultSet.getObject(2);
+                if(resultSet.getObject("NAME").equals(name))
+                    ID =resultSet.getInt("HOLIDAYID");
             }
         }
         catch(SQLException exception)
@@ -100,7 +100,7 @@ public class DatabaseAccessors {
     {
         String name="";
         final String query = 
-            "SELECT *FROM APP.CUSTOMERS";
+            "SELECT *FROM APP.CUSTOMER";
         try(Connection connection = DriverManager.getConnection(dbURL,username,password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query))
@@ -124,7 +124,7 @@ public class DatabaseAccessors {
     {
         String name="";
         final String query = 
-            "SELECT *FROM APP.MAGICIAN";
+            "SELECT *FROM APP.MAGICIANS";
         try(Connection connection = DriverManager.getConnection(dbURL,username,password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query))
