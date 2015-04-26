@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
 
 //This class will contain all of the commands for interacting with the database
 //It will add each booking entry along with getting statuses of the waitlist,magicians, and holidays
@@ -25,12 +25,22 @@ public class BookingList {
         magicianList = new MagicianList();
         holidayList = new HolidayList();
     }
-    
-    public void addBooking(String customer, String holiday)
+    //returns whether or not a legitamite booking can be made
+    public boolean addBooking(String customer, String holiday)
     {
+        if(!customerList.contains(customer))
+        {
             customerList.add(customer);
+        }
+        
+        if(!customerHasBooking(customer,holiday))
+        {
             new BookingListEntry(customerList.getID(customer),holidayList.getHolidayID(holiday));
+            return true;
+        }
+        return false;
     }
+    //gets output for booking
     public String getHolidayBookingList (String hol)
     {
         String list = "";
@@ -45,12 +55,12 @@ public class BookingList {
             
             ResultSet resultSet = printEntries.executeQuery();
             
-            list+="Customer\t  Holiday\t  Magician\n";
+            list+="Customer\tMagician\n";
 
             
             while(resultSet.next())
             {
-                list+= customerList.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\t " + holidayList.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ magicianList.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
+                list+= customerList.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\t "+ magicianList.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
             }
         }
         catch(SQLException exception)
@@ -60,9 +70,12 @@ public class BookingList {
         
         return list;
     }
+    
+ 
+    //gets output for magician status, m is magician requested
     public String getMagicianStatus(String m)
     {
-        String list = m + "\n\n";
+        String list = m + "'s customer list.\n\n";
         final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
                 + "FROM   APP.BOOKING   WHERE   MAGICIANID = ?";
         
@@ -76,11 +89,13 @@ public class BookingList {
             
             list+="Holiday\t  Customer\n";
 
+            if(!resultSet.next())
+                return m + " has no customers.";
             
-            while(resultSet.next())
+            do
             {
                 list+=  holidayList.getHolidayName(resultSet.getInt("HOLIDAYID"))+ "\t "+ customerList.getCustomerName(resultSet.getInt("CUSTOMERID")) + "\n";
-            }          
+            }while(resultSet.next());          
             
         }
         catch(SQLException exception)
@@ -91,9 +106,10 @@ public class BookingList {
         
         return list;
     }
+    //gets output for holiday status, h is holiday requested
     public String getHolidayStatus(String h)
     {
-        String list = h + "\n\n";
+        String list = h + "'s bookings.\n\n";
         final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
                 + "FROM   APP.BOOKING   WHERE   HOLIDAYID = ?";
         
@@ -107,12 +123,12 @@ public class BookingList {
             
             list+="Customer\tMagician\n\n";
 
-            
-            while(resultSet.next())
+            if(!resultSet.next())
+                return "There are no bookings for " + h +".";
+            do
             {
                 list+=  customerList.getCustomerName(resultSet.getInt("CUSTOMERID"))+ "\t"+ magicianList.getMagicianName(resultSet.getInt("MAGICIANID")) + "\n";
-                
-            }          
+            }while(resultSet.next() && resultSet.getInt("MAGICIANID")!=-1);          
             
         }
         catch(SQLException exception)
@@ -123,11 +139,11 @@ public class BookingList {
         
         return list;
     }
-    
+    //gets output for waitlist status, h is holiday requested
     public String getWaitlist(String h)
     {
         
-        String list = "Waitlist for " + h + " \n\n";
+        String list ="";
         final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID,TIMEOFBOOKING "
                 + "FROM APP.BOOKING WHERE HOLIDAYID = ? AND MAGICIANID=-1 "
                 + "ORDER BY TIMEOFBOOKING ASC";
@@ -142,12 +158,18 @@ public class BookingList {
             
             
             int x =1;
-            
-            while(resultSet.next())
-            {
-                list+=  x+ ". " + customerList.getCustomerName(resultSet.getInt("CUSTOMERID"))+"\n";
-                x++;
-            }          
+ 
+            if(!resultSet.next())
+                list = "There is no waitlist for " + h +".";
+            else
+            {               
+                list = "Waitlist for " + h + " \n\n"; 
+                do   
+                {
+                    list+=  x+ ". " + customerList.getCustomerName(resultSet.getInt("CUSTOMERID"))+"\n";
+                    x++;
+                }while(resultSet.next());    
+            }
             
         }
         catch(SQLException exception)
@@ -158,5 +180,52 @@ public class BookingList {
         
         return list;
     }
+    //checks to see if a customer already has a booking for a desired holiay
+    private boolean customerHasBooking(String customer, String holiday)
+    {
+        final String query = "SELECT HOLIDAYID, CUSTOMERID FROM APP.BOOKING "
+                + "WHERE HOLIDAYID= ? AND CUSTOMERID = ?";
+        try(Connection con = DriverManager.getConnection(dbURL,username,password);
+                PreparedStatement prepStat= con.prepareStatement(query)
+                )
+        {
+           prepStat.setInt(1, holidayList.getHolidayID(holiday));
+           prepStat.setInt(2, customerList.getID(customer));
+           ResultSet resultSet = prepStat.executeQuery();
+           
+           if(!resultSet.next())
+               return false;
+        }
+            
+         catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+                
+        return true;
+    }   
     
+    
+    //returns list of holidays in database;
+    public ArrayList getHolidays ()
+    {
+        return holidayList.getHolidayList();
+    }
+    public ArrayList getMagicians()
+    {
+        return magicianList.getMagicians();
+    }
+    
+    public void addMagician(String m)
+    {
+        magicianList.addMagician(m);
+    }
+    public void addHoliday (String h)
+    {
+        holidayList.addHoliday(h);
+    }
+    public void dropMagician(String m)
+    {
+        magicianList.dropMagician(m);
+    }
 }

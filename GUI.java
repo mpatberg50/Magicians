@@ -1,5 +1,5 @@
 package Magicians;
-
+import java.util.ArrayList;
 
 //This is the GUI created from the Nimbus generator in Netbeans
 
@@ -44,6 +44,12 @@ public class GUI extends javax.swing.JFrame {
         WaitListStatus = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         StatusTextArea = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        AddMagicianTextField = new javax.swing.JTextField();
+        AddMagicianButton = new javax.swing.JButton();
+        DropMagicianComboBox = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,7 +64,11 @@ public class GUI extends javax.swing.JFrame {
 
         HolidayLabelBooking.setText("Holiday: ");
 
-        HolidayComboBoxBooking.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
+        HolidayComboBoxBooking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HolidayComboBoxBookingActionPerformed(evt);
+            }
+        });
 
         BookingTextArea.setEditable(false);
         BookingTextArea.setColumns(20);
@@ -109,6 +119,11 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        ArrayList<String> holidays = bookingList.getHolidays();
+
+        for(int x =0; x< holidays.size();x++)
+        HolidayComboBoxBooking.addItem(holidays.get(x));
+
         jTabbedPane2.addTab("Book", jPanel1);
 
         StatusHolidays.setText("Status");
@@ -120,11 +135,9 @@ public class GUI extends javax.swing.JFrame {
 
         HolidayLabelStatus.setText("Holiday: ");
 
-        HolidayComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
+        HolidayComboBoxStatus.setToolTipText("");
 
         MagiciansLabel.setText("Magicians:");
-
-        MagiciansComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Houdini", "Gandalf", "Merlin" }));
 
         StatusMagicians.setText("Status");
         StatusMagicians.addActionListener(new java.awt.event.ActionListener() {
@@ -134,8 +147,6 @@ public class GUI extends javax.swing.JFrame {
         });
 
         WaitlistLabel.setText("Waitlist");
-
-        WaitlistComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "4th of July", "Halloween", "New Years Eve" }));
 
         WaitListStatus.setText("Status");
         WaitListStatus.addActionListener(new java.awt.event.ActionListener() {
@@ -204,7 +215,77 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        for(int x =0; x<holidays.size();x++)
+        HolidayComboBoxStatus.addItem(holidays.get(x));
+        ArrayList<String> magicians= bookingList.getMagicians();
+
+        for(int x =0; x<magicians.size();x++)
+        MagiciansComboBox.addItem(magicians.get(x));
+        for(int x =0; x<holidays.size();x++)
+        WaitlistComboBox.addItem(holidays.get(x));
+
         jTabbedPane2.addTab("Status", jPanel2);
+
+        AddMagicianTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddMagicianTextFieldActionPerformed(evt);
+            }
+        });
+
+        AddMagicianButton.setText("Add Magician");
+        AddMagicianButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddMagicianButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Drop Magician");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("jTextField1");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(DropMagicianComboBox, 0, 145, Short.MAX_VALUE)
+                            .addComponent(AddMagicianTextField))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AddMagicianButton)
+                            .addComponent(jButton1))))
+                .addContainerGap(127, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddMagicianTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddMagicianButton))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DropMagicianComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(301, Short.MAX_VALUE))
+        );
+
+        for(int x =0; x<magicians.size();x++)
+        DropMagicianComboBox.addItem(magicians.get(x));
+
+        jTabbedPane2.addTab("Add/Drop", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -224,34 +305,60 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //booking button
     private void BookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingButtonActionPerformed
         String customerName = NameBox.getText();
         String holidayName = (String)HolidayComboBoxBooking.getSelectedItem();
         
         
-        if(NameBox.getText().length()>=1);
+        if(!NameBox.getText().isEmpty())
         {
-            bookingList.addBooking(customerName, holidayName);
-            BookingTextArea.setText(bookingList.getHolidayBookingList(holidayName) + "\n\n" + bookingList.getWaitlist(holidayName));
+            if(bookingList.addBooking(customerName, holidayName)==true)
+                BookingTextArea.setText(bookingList.getHolidayBookingList(holidayName) + "\n\n" + bookingList.getWaitlist(holidayName));
+            else
+                BookingTextArea.setText(customerName+ " already has a booking for " + holidayName + ".");
         }
-        
-        
     }//GEN-LAST:event_BookingButtonActionPerformed
-
+    
+    //status holiday button
     private void PressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PressButton
         String holidayName = (String)HolidayComboBoxStatus.getSelectedItem();
-        StatusTextArea.setText(bookingList.getHolidayStatus(holidayName));
+        StatusTextArea.setText(bookingList.getHolidayStatus(holidayName)+ "\n\n" + bookingList.getWaitlist(holidayName));
     }//GEN-LAST:event_PressButton
 
+    //magician status button
     private void StatusMagiciansPressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusMagiciansPressButton
         String magicianName = (String)MagiciansComboBox.getSelectedItem();
         StatusTextArea.setText(bookingList.getMagicianStatus(magicianName));
     }//GEN-LAST:event_StatusMagiciansPressButton
 
+    //waitlist status button
     private void WaitListStatusPressButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WaitListStatusPressButton
         String holidayName = (String)WaitlistComboBox.getSelectedItem();
         StatusTextArea.setText(bookingList.getWaitlist(holidayName));
     }//GEN-LAST:event_WaitListStatusPressButton
+
+    private void HolidayComboBoxBookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HolidayComboBoxBookingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HolidayComboBoxBookingActionPerformed
+
+    private void AddMagicianTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMagicianTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddMagicianTextFieldActionPerformed
+
+    private void AddMagicianButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddMagicianButtonActionPerformed
+        String newMagician = AddMagicianTextField.getText();
+        bookingList.addMagician(newMagician);
+        MagiciansComboBox.addItem(newMagician);
+        DropMagicianComboBox.addItem(newMagician);
+    }//GEN-LAST:event_AddMagicianButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String droppedMagician = (String)DropMagicianComboBox.getSelectedItem();
+        bookingList.dropMagician(droppedMagician);
+        MagiciansComboBox.removeItem(droppedMagician);
+        DropMagicianComboBox.removeItem(droppedMagician);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,8 +396,11 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddMagicianButton;
+    private javax.swing.JTextField AddMagicianTextField;
     private javax.swing.JButton BookingButton;
     private javax.swing.JTextArea BookingTextArea;
+    private javax.swing.JComboBox DropMagicianComboBox;
     private javax.swing.JComboBox HolidayComboBoxBooking;
     private javax.swing.JComboBox HolidayComboBoxStatus;
     private javax.swing.JLabel HolidayLabelBooking;
@@ -305,11 +415,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton WaitListStatus;
     private javax.swing.JComboBox WaitlistComboBox;
     private javax.swing.JLabel WaitlistLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

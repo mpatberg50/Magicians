@@ -24,13 +24,11 @@ public class HolidayList {
     {
         final String query = 
             "SELECT * FROM APP.Holidays";
-  //      Class.forName("org.apache.derby.jdbc.ClientDriver");
         try
         {
             Connection connection = DriverManager.getConnection(dbURL,username,password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
-            ResultSetMetaData metaData = resultSet.getMetaData();
             
             while(resultSet.next())
             {
@@ -67,10 +65,7 @@ public class HolidayList {
         
         return ID;      
     }
-    public void add(String h)
-    {
-        holidays.add(h);
-    }
+    
     public String getHolidayName(int id)
     {
         String name="";
@@ -96,7 +91,39 @@ public class HolidayList {
         return name;
     }
     
-
+    public ArrayList getHolidayList()
+    {
+        return holidays;
+    }
+    
+    public void addHoliday(String h)
+    {
+        holidays.add(h);
+        int id = 0;
+        String query = "SELCET *FROM APP.HOLIDAYS";
+        
+        try(Connection conn = DriverManager.getConnection(dbURL,username,password);
+                Statement stat= conn.createStatement();
+                ResultSet resSet = stat.executeQuery(query)
+                )
+        {
+            
+            while(resSet.next())
+            {
+                if(id<resSet.getInt("HOLIDAYID"))
+                    id = resSet.getInt("HOLIDAYID");
+            }
+            
+            query = "INSERT INTO APP.HOLIDAYS (HOLIDAYID, NAME) VALUES(id,h)";
+            stat.executeUpdate(query);
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        
+    }
     
     
 }

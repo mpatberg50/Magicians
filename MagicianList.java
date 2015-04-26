@@ -17,7 +17,7 @@ public class MagicianList {
     // jdbc Connection
     private static Connection connection = null;
     private static PreparedStatement addMagician = null;
-    private ArrayList<String> magicians = new ArrayList<String>();
+    private ArrayList<String> magicians = new ArrayList();
     
     MagicianList()
     {
@@ -50,7 +50,6 @@ public class MagicianList {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query))
         {
-            ResultSetMetaData metaData = resultSet.getMetaData();
             
             while(resultSet.next())
             {
@@ -90,6 +89,62 @@ public class MagicianList {
         return name;
     }
     
+    public ArrayList getMagicians()
+    {
+        return magicians;
+    }
+    public void addMagician(String m)
+    {      
+        magicians.add(m);
+        int id = 0;
+        String query = "SELECT *FROM APP.MAGICIANS";
+        
+        try(Connection connection = DriverManager.getConnection(dbURL,username,password);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query))
+        {
+            
+            while(resultSet.next())
+            {
+                if(id<resultSet.getInt("MAGICIANID"))
+                    id = resultSet.getInt("MAGICIANID");
+            }
+            
+            query = "INSERT INTO APP.MAGICIANS (MAGICIANID, NAME) VALUES(?,?)";
+            addMagician = connection.prepareStatement(query);
+            
+            //the id searches for the largest max value and adds one to it
+            addMagician.setInt(1, id+1);
+            addMagician.setString(2, m);
+            addMagician.executeUpdate();
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+  
+        
+        
+    }
     
+    public void dropMagician(String m)
+    { 
+        magicians.remove(m);
+        final String query = "DELETE FROM APP.MAGICIAN WHERE NAME = ?";
+        
+        try(Connection conn = DriverManager.getConnection(dbURL,username,password);
+                PreparedStatement prepStat = conn.prepareStatement(query)
+                )
+        {
+            prepStat.setString(1, m);
+            ResultSet resSet = prepStat.executeQuery();
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        
+    }
 
 }

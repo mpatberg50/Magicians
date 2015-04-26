@@ -65,8 +65,7 @@ public class CustomerList {
         }
         
     }
-    
-public int getID(String cust)
+    public int getID(String cust)
     {
         int ID=0;
         final String query = 
@@ -90,7 +89,6 @@ public int getID(String cust)
         
         return ID;
     }
-
     public boolean contains(String name)
     {
         for(int x=0; x<customers.size();x++)
@@ -98,9 +96,6 @@ public int getID(String cust)
                 return true;
         return false;
     }
-    
-    
-    
     public String getCustomerName(int id)
     {
         String name="";
@@ -126,7 +121,3 @@ public int getID(String cust)
         return name;
     }
 }
-
-
-
-
