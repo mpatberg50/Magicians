@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CustomerList {
 
-    private final ArrayList<String> customers = new ArrayList<String>();
+    private final ArrayList<String> customers = new ArrayList();
     private final String dbURL = "jdbc:derby://localhost:1527/MagicianData";
     final private String username = "mrp5379", password = "famfa50";
     private Connection connection;
@@ -41,13 +41,14 @@ public class CustomerList {
     
     public void add(String cust)
     {
+ 
         final String query = 
                 "INSERT INTO APP.CUSTOMER"+
                 "(Name,ID)"+
                 "VALUES(?,?)";
         
         if(!this.contains(cust))
-        {
+        {                
                 try
                 {
                     connection = DriverManager.getConnection(dbURL,username,password);
@@ -63,6 +64,7 @@ public class CustomerList {
                     sqlException.printStackTrace();
                 }
         }
+
         
     }
     public int getID(String cust)
@@ -119,5 +121,9 @@ public class CustomerList {
         }
         
         return name;
+    }
+    public ArrayList getCustomerList()
+    {
+        return customers;
     }
 }

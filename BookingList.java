@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+
 //This class will contain all of the commands for interacting with the database
 //It will add each booking entry along with getting statuses of the waitlist,magicians, and holidays
 
@@ -19,12 +20,15 @@ public class BookingList {
     private final MagicianList magicianList;
     private final HolidayList holidayList;
     
+    
+    
     public BookingList()
     {
         customerList = new CustomerList();
         magicianList = new MagicianList();
         holidayList = new HolidayList();
     }
+    
     //returns whether or not a legitamite booking can be made
     public boolean addBooking(String customer, String holiday)
     {
@@ -79,7 +83,6 @@ public class BookingList {
         final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
                 + "FROM   APP.BOOKING   WHERE   MAGICIANID = ?";
         
-        
         try
         {
             connection = DriverManager.getConnection(dbURL,username,password);
@@ -111,7 +114,7 @@ public class BookingList {
     {
         String list = h + "'s bookings.\n\n";
         final String query = "SELECT CUSTOMERID,HOLIDAYID,MAGICIANID   "
-                + "FROM   APP.BOOKING   WHERE   HOLIDAYID = ?";
+                + "FROM   APP.BOOKING   WHERE   HOLIDAYID = ? AND MAGICIANID<>-1";
         
         
         try
@@ -215,17 +218,104 @@ public class BookingList {
     {
         return magicianList.getMagicians();
     }
+    public ArrayList getCustomers()
+    {
+        return customerList.getCustomerList();
+    }
+    
     
     public void addMagician(String m)
     {
         magicianList.addMagician(m);
+        magicianList.assignMagician(m);     
+        
     }
     public void addHoliday (String h)
     {
         holidayList.addHoliday(h);
     }
     public void dropMagician(String m)
-    {
+    {       
+        magicianList.removeMagician(m);
+        magicianList.reAssignMagician();
         magicianList.dropMagician(m);
+
     }
+    public boolean customerInSystem(String c)
+    {
+        return customerList.contains(c);
+    }
+    
+    public boolean cancelBooking(String c, String h)
+    {
+        final int customerID = customerList.getID(c);
+        final int holidayID = holidayList.getHolidayID(h);
+
+        int magicianID = -1;
+        
+        String findQuery = "SELECT * FROM APP.BOOKING WHERE HOLIDAYID = ?"
+                + " ORDER BY TIMEOFBOOKING ASC";
+
+        
+        //deletes from database
+        String deleteQuery = "DELETE  FROM APP.BOOKING WHERE CUSTOMERID=? AND HOLIDAYID = ? ";
+       
+        try
+        {         
+            Connection conn =DriverManager.getConnection(dbURL,username,password);
+            PreparedStatement findBooking = conn.prepareStatement(findQuery);
+            findBooking.setInt(1, holidayID);
+            ResultSet findSet = findBooking.executeQuery();
+            
+            if(!findSet.next())
+            {
+                //if empty return false
+                return false;
+            }
+            else
+            {
+                String setMagicianQuery = "UPDATE APP.BOOKING SET MAGICIANID = ? "
+                        + "WHERE CUSTOMERID = ? AND HOLIDAYID=?";
+                PreparedStatement setMagician = conn.prepareStatement(setMagicianQuery);
+                
+                do
+                {
+                    if(findSet.getInt("CUSTOMERID")==customerID)
+                    {
+                        magicianID = findSet.getInt("MAGICIANID");
+                    }
+                    else if(findSet.getInt("MAGICIANID")==-1 && magicianID>=0)
+                    {
+                        
+                        
+                        setMagician.setInt(1,magicianID);
+                        setMagician.setInt(2, findSet.getInt("CUSTOMERID"));
+                        setMagician.setInt(3, findSet.getInt("HOLIDAYID"));
+                        setMagician.executeUpdate();
+                        
+                        System.out.println(magicianID);
+                        //ensures it only goes through else if once
+                        magicianID=-2;
+                    }
+                }while(findSet.next());
+            }
+            
+            
+            PreparedStatement deleteMagician = conn.prepareStatement(deleteQuery);
+            deleteMagician.setInt(1, customerID);
+            deleteMagician.setInt(2, holidayID);
+            deleteMagician.executeUpdate();
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        //magicianID will = -1 if it does not find a magicianID
+        if(magicianID!=-1)
+            return true;
+        
+        return false;
+    }
+    
 }

@@ -72,9 +72,7 @@ public class MagicianList {
         try(Connection connection = DriverManager.getConnection(dbURL,username,password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query))
-        {
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            
+        {            
             while(resultSet.next())
             {
                 if(resultSet.getInt("MAGICIANID")==id)
@@ -130,14 +128,14 @@ public class MagicianList {
     public void dropMagician(String m)
     { 
         magicians.remove(m);
-        final String query = "DELETE FROM APP.MAGICIAN WHERE NAME = ?";
+        final String query = "DELETE FROM APP.MAGICIANS WHERE NAME = ?";
         
         try(Connection conn = DriverManager.getConnection(dbURL,username,password);
                 PreparedStatement prepStat = conn.prepareStatement(query)
                 )
         {
             prepStat.setString(1, m);
-            ResultSet resSet = prepStat.executeQuery();
+            prepStat.executeUpdate();
         }
         catch(SQLException exception)
         {
@@ -146,5 +144,132 @@ public class MagicianList {
         
         
     }
+    
+    public void assignMagician(String m)
+    {
+        String selectQuery = "SELECT * FROM APP.BOOKING WHERE MAGICIANID = -1 "
+                        +"ORDER BY TIMEOFBOOKING ASC";
+        int id = this.getMagicianID(m);
+        ArrayList<Integer> holidaysBooked = new ArrayList();
+        int holidayID;
+        
+        try(Connection con = DriverManager.getConnection(dbURL,username,password);
+                Statement selectStatement = con.createStatement();
+                ResultSet resSet = selectStatement.executeQuery(selectQuery))
+        {
+            String updateQuery = "UPDATE APP.BOOKING "
+                    + "SET MAGICIANID=? "
+                    + "WHERE CUSTOMERID = ? AND HOLIDAYID = ?";
+            
+           
+            PreparedStatement prepStat = con.prepareStatement(updateQuery);
+            prepStat.setInt(1, id);
+            
+            while(resSet.next())
+            {
+                holidayID = resSet.getInt("HOLIDAYID");
+                
+                if(!holidaysBooked.contains(holidayID))
+                {
+                    prepStat.setInt(2, resSet.getInt("CUSTOMERID"));
+                    prepStat.setInt(3,holidayID);
+                    prepStat.executeUpdate();
+                    holidaysBooked.add(holidayID);
+                }
+                
+            }
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+    public void removeMagician(String m)
+    {
+        try(Connection conn = DriverManager.getConnection(dbURL,username,password))
+        {
+            String updateQuery = "UPDATE APP.BOOKING SET MAGICIANID=-1 WHERE MAGICIANID = ?";
+            
+            PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+            updateStatement.setInt(1, this.getMagicianID(m));
+            updateStatement.executeUpdate();
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+        
+        //REASSIGN MAGICIANS
+    }
+    public void reAssignMagician()
+    {
+        String query = "SELECT * FROM APP.BOOKING "
+                + " ORDER BY HOLIDAYID, TIMEOFBOOKING ASC";
+        
+        try(Connection connection = DriverManager.getConnection(dbURL, username, password);
+                PreparedStatement assignMagician = connection.prepareStatement(query))
+        {
+            
+            ResultSet magicianTable = assignMagician.executeQuery();
+            int tempMagNum = -1;
+            int customerID = -1;
+            int holidayID = -1;
+            int tempHolidayID;
+            
+            
+            String addQuery = "UPDATE APP.BOOKING"
+                    + " SET MAGICIANID = ? WHERE CUSTOMERID = ?";
+            String removeQuery = "UPDATE APP.BOOKING"
+                    + " SET MAGICIANID = -1 WHERE MAGICIANID = ?";
 
+            PreparedStatement takeAwayMagician = connection.prepareStatement(removeQuery);
+            PreparedStatement giveMagician = connection.prepareStatement(addQuery);
+            
+            
+            while(magicianTable.next())
+            {
+                if(holidayID==-1)
+                {
+                    holidayID = magicianTable.getInt("HOLIDAYID");
+                }
+                
+                
+                tempHolidayID = magicianTable.getInt("HOLIDAYID");
+                
+                if(holidayID!=tempHolidayID  )
+                {
+                    if(tempMagNum!=-1)
+                    {
+                        takeAwayMagician.setInt(1, tempMagNum);
+                        giveMagician.setInt(1, customerID);
+                        giveMagician.setInt(2, tempMagNum);
+
+                        takeAwayMagician.executeUpdate();
+                        giveMagician.executeUpdate();
+                    }
+                    
+                    tempHolidayID = holidayID;
+                    customerID = -1;
+                    tempMagNum = -1;    
+                }
+                
+                
+                
+                if(magicianTable.getInt("MAGICIANID")==-1 && customerID == -1)
+                {
+                    customerID= magicianTable.getInt("CUSTOMERID");
+                }
+                else if(magicianTable.getInt("MAGICIANID")!=-1)
+                {
+                    tempMagNum = magicianTable.getInt("MAGICIANID");
+                }
+            }
+
+        }
+        catch(SQLException exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+    
 }

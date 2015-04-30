@@ -100,7 +100,7 @@ public class HolidayList {
     {
         holidays.add(h);
         int id = 0;
-        String query = "SELCET *FROM APP.HOLIDAYS";
+        String query = "SELECT *FROM APP.HOLIDAYS";
         
         try(Connection conn = DriverManager.getConnection(dbURL,username,password);
                 Statement stat= conn.createStatement();
@@ -114,8 +114,11 @@ public class HolidayList {
                     id = resSet.getInt("HOLIDAYID");
             }
             
-            query = "INSERT INTO APP.HOLIDAYS (HOLIDAYID, NAME) VALUES(id,h)";
-            stat.executeUpdate(query);
+            query = "INSERT INTO APP.HOLIDAYS (HOLIDAYID, NAME) VALUES(?,?)";
+            PreparedStatement prepStat = conn.prepareStatement(query);
+            prepStat.setInt(1, id+1);
+            prepStat.setString(2, h);
+            prepStat.executeUpdate();
         }
         catch(SQLException exception)
         {
