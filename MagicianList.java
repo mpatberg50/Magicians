@@ -199,7 +199,7 @@ public class MagicianList {
             exception.printStackTrace();
         }
         
-        //REASSIGN MAGICIANS
+        
     }
     public void reAssignMagician()
     {
@@ -211,6 +211,7 @@ public class MagicianList {
         {
             
             ResultSet magicianTable = assignMagician.executeQuery();
+            
             int tempMagNum = -1;
             int customerID = -1;
             int holidayID = -1;
@@ -236,19 +237,19 @@ public class MagicianList {
                 
                 tempHolidayID = magicianTable.getInt("HOLIDAYID");
                 
-                if(holidayID!=tempHolidayID  )
+                if(holidayID!=tempHolidayID )
                 {
                     if(tempMagNum!=-1)
                     {
                         takeAwayMagician.setInt(1, tempMagNum);
-                        giveMagician.setInt(1, customerID);
-                        giveMagician.setInt(2, tempMagNum);
+                        giveMagician.setInt(1, tempMagNum);
+                        giveMagician.setInt(2, customerID);
 
                         takeAwayMagician.executeUpdate();
                         giveMagician.executeUpdate();
                     }
                     
-                    tempHolidayID = holidayID;
+                    holidayID = tempHolidayID;
                     customerID = -1;
                     tempMagNum = -1;    
                 }
@@ -263,6 +264,16 @@ public class MagicianList {
                 {
                     tempMagNum = magicianTable.getInt("MAGICIANID");
                 }
+            }
+            if(tempMagNum!=-1)
+            {
+                takeAwayMagician.setInt(1, tempMagNum);
+                giveMagician.setInt(1, tempMagNum);
+                giveMagician.setInt(2, customerID);
+                
+                
+                takeAwayMagician.executeUpdate();
+                giveMagician.executeUpdate();
             }
 
         }
